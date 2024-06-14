@@ -1,24 +1,21 @@
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import MultiSelect from '../../General/Multiselect';
 
+/*
 interface FormData {
     username: string;
     email: string;
     photo: File | null;
 }
+    */ 
 function AboutProject() {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const options = ['Option 1', 'Option 2', 'Option 3'];
     const navigate = useNavigate();
     const goBack = () => {
         navigate("/");
     }
-    const { register, handleSubmit, setValue } = useForm<FormData>();
-    const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    /*const { register, handleSubmit, setValue } = useForm<FormData>();
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);¨*/
+    /*const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
             setValue('photo', file);  // Set file in the form state
@@ -30,9 +27,9 @@ function AboutProject() {
 
             reader.readAsDataURL(file);
         }
-    };
+    };*/
 
-    const onSubmit: SubmitHandler<FormData> = (data) => {
+    /*const onSubmit: SubmitHandler<FormData> = (data) => {
         const formData = new FormData();
         formData.append('username', data.username);
         formData.append('email', data.email);
@@ -48,7 +45,7 @@ function AboutProject() {
             .then(response => response.json())
             .then(data => console.log('Success:', data))
             .catch((error) => console.error('Error:', error));
-    };
+    };*/
 
     const registerProject=()=>{
         navigate("/registerProject")
@@ -60,7 +57,7 @@ function AboutProject() {
                 <h2 className="absolute left-1/2 transform -translate-x-1/2 text-white font-bold">Sobre el proyecto</h2>
             </div>
             <div className="flex bg-dark flex justify-center min-h-screen items-center ">
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 ">
+                <form /*onSubmit={handleSubmit(onSubmit)}*/ className="space-y-6 ">
 
 
                     <div className="flex items-center min-h-0" >

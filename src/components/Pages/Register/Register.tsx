@@ -1,12 +1,10 @@
-import MultiSelect from '../../General/Multiselect';
-import { useState } from "react";
+
 import ProfileForm from './ProfileForm';
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const options = ['Option 1', 'Option 2', 'Option 3'];
+    
     const navigate = useNavigate();
     const goBack = () => {
         navigate("/");

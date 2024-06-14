@@ -1,23 +1,24 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import MultiSelect from '../../General/Multiselect';
 import { useNavigate } from 'react-router-dom';
 import { Textarea } from 'flowbite-react';
 
+/*
 interface FormData {
   username: string;
   email: string;
   photo: File | null;
 }
+*/ 
 
 const RegisterProjectForm: React.FC = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, setValue } = useForm<FormData>();
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  /*const { register, handleSubmit, setValue } = useForm<FormData>();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);*/
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const options = ['Option 1', 'Option 2', 'Option 3'];
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  /*const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
       setValue('photo', file);  // Set file in the form state
@@ -29,7 +30,7 @@ const RegisterProjectForm: React.FC = () => {
 
       reader.readAsDataURL(file);
     }
-  };
+  };*/
 
   const nextWindow = () => {
     navigate("/aboutProject");

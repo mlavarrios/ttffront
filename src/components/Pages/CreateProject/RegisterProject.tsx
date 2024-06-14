@@ -1,23 +1,18 @@
 import { Button } from 'flowbite-react';
 import { useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import MultiSelect from '../../General/Multiselect';
 import RegisterProjectForm from './RegisterProjectForm';
 
-interface FormData {
+/*interface FormData {
     username: string;
     email: string;
     photo: File | null;
-}
+}*/ 
 function RegisterProject() {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const options = ['Option 1', 'Option 2', 'Option 3'];
     const navigate = useNavigate();
     const goBack = () => {
         navigate("/aboutProject");
     }
-    const { register, handleSubmit, setValue } = useForm<FormData>();
+    /*const { register, handleSubmit, setValue } = useForm<FormData>();
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
@@ -32,8 +27,8 @@ function RegisterProject() {
             reader.readAsDataURL(file);
         }
     };
-
-    const onSubmit: SubmitHandler<FormData> = (data) => {
+*/
+    /*const onSubmit: SubmitHandler<FormData> = (data) => {
         const formData = new FormData();
         formData.append('username', data.username);
         formData.append('email', data.email);
@@ -49,11 +44,11 @@ function RegisterProject() {
             .then(response => response.json())
             .then(data => console.log('Success:', data))
             .catch((error) => console.error('Error:', error));
-    };
+    };*/
 
-    const registerProject=()=>{
+    /*const registerProject=()=>{
         navigate("/registerProject")
-    }
+    }*/
     return (
         <div  >
             <div className="w-full bg-guinda h-12 py-3 flex items-center relative">

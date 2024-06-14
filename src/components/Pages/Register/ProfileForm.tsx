@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import MultiSelect from '../../General/Multiselect';
 import { useNavigate } from 'react-router-dom';
 
@@ -11,7 +11,7 @@ interface FormData {
 
 const ProfileForm: React.FC = () => {
   const navigate = useNavigate();
-  const { register, handleSubmit, setValue } = useForm<FormData>();
+  const { /*register, handleSubmit,*/  setValue } = useForm<FormData>();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const options = ['Option 1', 'Option 2', 'Option 3'];

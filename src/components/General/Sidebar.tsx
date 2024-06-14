@@ -50,10 +50,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               user?.userType=="student"?<StudentSidebar/>:null
             }
             {
-              user?.userType=="teacher"?<TeacherSidebar/>:null
+              user?.userType=="Profesor"?<TeacherSidebar/>:null
             }
             {
-              user?.userType=="admin"?<AdminSidebar/>:null
+              user?.userType=="Administrador"?<AdminSidebar/>:null
             }
             <div className='p-5'>
             <Button className='text-white p-2' onClick={handleLogout}>Cerrar Sesión</Button>

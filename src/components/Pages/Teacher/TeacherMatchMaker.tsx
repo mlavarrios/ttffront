@@ -1,5 +1,5 @@
 import { Button, Card, Textarea } from 'flowbite-react'
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import MultiSelect from '../../General/Multiselect';
 
 function TeacherMatchMaker() {
@@ -10,8 +10,11 @@ function TeacherMatchMaker() {
             <div className="flex justify-center items-center w-full py-6">
                 <Card href="#" className="w-50">
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                        MatchMaker
+                        Matches
                     </h5>
+                    <div>
+                        <p>Grado de afinidad: 80%</p>
+                    </div>
                     <div className="w-full">
                         <form>
                             <div className="w-full flex flex-row justify-between  ">

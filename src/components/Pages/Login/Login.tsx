@@ -1,8 +1,10 @@
-import { Alert } from "flowbite-react";
+
 import { useEffect, useState } from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import useSessionStore from "../../../store/userStore";
+import Axios from "axios";
+import { Usuario } from '../../../types/Usuario';
 
 
 function Login() {
@@ -10,10 +12,38 @@ function Login() {
     const { login } = useSessionStore.getState();
     const [showToast, setShowToast] = useState(false);
     const { user } = useSessionStore.getState();
+    const [usuarios, setUsuarios] = useState<Usuario[]>([]);
     const [formData, setFormData] = useState({
         email: "",
         password: ""
     })
+
+    useEffect(() => {
+        // Función para obtener la lista de usuarios
+        const fetchUsuarios = async () => {
+            try {
+                const response = await Axios.get('https://ttfinder-d56be5dee4cc.herokuapp.com/usuarios/');
+                const data: Usuario[] = await response.data;
+                setUsuarios(data);
+            } catch (error) {
+                console.error('Error al obtener usuarios:', error);
+            }
+        };
+
+        fetchUsuarios();
+    }, []);
+
+    // Función para verificar el usuario
+    const verificarUsuario = () => {
+        const emailLower = formData.email.trim().toLowerCase();
+        const passwordLower = formData.password.trim().toLowerCase();
+        const usuarioEncontrado = usuarios.find(
+            (usuario) => usuario.correo.toLowerCase() === emailLower && usuario.contrasenia.toLowerCase() === passwordLower
+        );
+
+        return usuarioEncontrado || null;
+    };
+
     const handleShowToast = () => {
         setShowToast(true);
         setTimeout(() => {
@@ -21,33 +51,46 @@ function Login() {
         }, 5000);
     };
 
-    const logIn = () => {
+    const logIn = async () => {
 
-        const userData = {
-            email: formData.email,
-            userType: "admin",
-            name: 'Nombre de Usuario',
-        };
+        console.log(usuarios);
 
-        login(userData);
-        
-        if (userData?.userType == "admin") {
-            navigate("/adminHome")
-        } else if (userData?.userType == "teacher") {
-            navigate("/teacherHome")
-        } else if (userData?.userType == "student") {
-            navigate("/studentHome")
+        const exist = verificarUsuario()
+        console.log(exist);
+
+        if (exist != null) {
+            console.log("Existe");
+            const userData = {
+                email: exist.correo,
+                userType: exist.rol_nombre,
+                name: exist.nombre,
+            };
+
+            login(userData);
+            if (userData?.userType == "Administrador") {
+                navigate("/adminHome")
+            } else if (userData?.userType == "Profesor") {
+                navigate("/teacherHome")
+            } else if (userData?.userType == "Estudiante Postulante" || userData?.userType == "Estudiante Postulador") {
+                navigate("/studentHome")
+            } else {
+                handleShowToast()
+            }
+
         }
+
+
+
     }
     useEffect(() => {
         if (user?.userType == "admin") {
-            navigate("/adminHome")
+            //navigate("/adminHome")
         } else if (user?.userType == "teacher") {
-            navigate("/teacherHome")
+            //navigate("/teacherHome")
         } else if (user?.userType == "student") {
-            navigate("/studentHome")
-        }else{
-            navigate("/")
+            //navigate("/studentHome")
+        } else {
+            //navigate("/")
         }
     }, [])
 

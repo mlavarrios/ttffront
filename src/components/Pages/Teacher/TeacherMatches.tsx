@@ -1,10 +1,8 @@
-import { Button, Card, Textarea } from 'flowbite-react'
-import React, { useState } from 'react'
-import MultiSelect from '../../General/Multiselect';
+import { Button, Card} from 'flowbite-react'
+
 
 function TeacherMatches() {
-    const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-    const options = ['Option 1', 'Option 2', 'Option 3'];
+
     return (
         <div className="w-full flex items-center min-h-screen">
             <div className="flex justify-center items-center w-full py-6">
