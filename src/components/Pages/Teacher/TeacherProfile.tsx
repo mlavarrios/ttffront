@@ -32,7 +32,7 @@ function TeacherProfile() {
       const response = await axios.get(`${URI}/habilidades`);
       if (response.data) {
         const transformedOptions = response.data.map((item: { habilidad: string; id_habilidad: string }) => ({
-          value: item.id_habilidad.toString(), // Convertir a string para el MultiSelect
+          value: item.id_habilidad.toString(), 
           label: item.habilidad
         }));
         setOptions(transformedOptions);

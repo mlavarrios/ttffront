@@ -13,25 +13,53 @@ interface FormData {
   correo: string;
   cv: string | null;
   foto: string | null;
-  habilidades: Option[];
+  habilidades: { value: number, label: string }[];
   id_usuario: number;
   nombre: string;
   rol: number;
   boleta: string;
 }
 
+interface HabilidadTransformada {
+  id_habilidad: number;
+  habilidad: string;
+}
+
+
 function StudentProfile() {
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [options, setOptions] = useState<Option[]>([]);
   const user = useSessionStore((state: any) => state.user);
   const [formData, setFormData] = useState<FormData | null>(null);
+  const [fotoPreview, setFotoPreview] = useState<string | null>(null);
 
+  // Obtener las habilidades disponibles
+  const getSkills = async () => {
+    try {
+      const response = await axios.get(`${URI}/habilidades`);
+      if (response.data) {
+        const transformedOptions = response.data.map((item: { habilidad: string; id_habilidad: string }) => ({
+          value: item.id_habilidad.toString(),
+          label: item.habilidad
+        }));
+        setOptions(transformedOptions);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Obtener los datos del estudiante
   const getData = async () => {
     if (user) {
       try {
         const response = await axios.get(`${URI}/usuarios/estudiante/${user.userId}`);
         console.log(response.data);
         setFormData(response.data);
+        if (response.data.foto) {
+          setFotoPreview(`data:image/png;base64,${response.data.foto}`);
+        }
+        setSelectedOptions(response.data.habilidades.map((hab: { value: number, label: string }) => hab.value.toString()));
       } catch (error) {
         console.error(error);
       }
@@ -39,6 +67,7 @@ function StudentProfile() {
   };
 
   useEffect(() => {
+    getSkills();
     getData();
   }, []);
 
@@ -50,6 +79,57 @@ function StudentProfile() {
     } as FormData));
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setFormData((prevData) => ({
+          ...prevData,
+          foto: base64String.split(',')[1], // Remove the data URL prefix
+        } as FormData));
+        setFotoPreview(base64String);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+  const transformarHabilidades = ()=> {
+    return selectedOptions.map(value => {
+      const habilidadEncontrada = options.find(habilidad => habilidad.value === value);
+      if (habilidadEncontrada) {
+        return {
+          value: habilidadEncontrada.value,
+          label: habilidadEncontrada.label
+        };
+      }
+      throw new Error(`Habilidad con valor ${value} no encontrada`);
+    });
+  }
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (user && formData) {
+      try {
+        const resultado = transformarHabilidades();
+        const updatedData = {
+          ...formData,
+          habilidades: resultado,
+        };
+        console.log(resultado);
+        await axios.put(`${URI}/usuarios/estudiante/${user.userId}`, updatedData, {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        alert("Datos actualizados con éxito");
+      } catch (error) {
+        console.error(error);
+        alert("Error al actualizar los datos");
+      }
+    }
+  };
+
   return (
     <div className="w-full flex items-center min-h-screen">
       <div className="flex justify-center items-center w-full py-6">
@@ -59,7 +139,7 @@ function StudentProfile() {
           </h5>
           <div className="p-6">
             {formData && (
-              <form>
+              <form onSubmit={handleSubmit}>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-4">
                     <input
@@ -115,24 +195,12 @@ function StudentProfile() {
                     <input
                       type="file"
                       name="foto"
-                      onChange={(e) => {
-                        const file = e.target.files ? e.target.files[0] : null;
-                        if (file) {
-                          const reader = new FileReader();
-                          reader.onloadend = () => {
-                            setFormData((prevData) => ({
-                              ...prevData,
-                              foto: reader.result as string,
-                            } as FormData));
-                          };
-                          reader.readAsDataURL(file);
-                        }
-                      }}
+                      onChange={handleFileChange}
                       className="block w-full p-3 border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                     />
-                    {formData.foto && (
+                    {fotoPreview && (
                       <img
-                        src={`data:image/png;base64,${formData.foto}`}
+                        src={fotoPreview}
                         alt="Foto de perfil"
                         className="w-32 h-32 rounded-full"
                       />
@@ -146,7 +214,7 @@ function StudentProfile() {
                   </div>
                 </div>
                 <div className="p-6 w-full flex justify-end">
-                  <Button className="bg-guinda">Actualizar datos</Button>
+                  <Button type="submit" className="bg-guinda">Actualizar datos</Button>
                 </div>
               </form>
             )}

@@ -48,7 +48,7 @@ function StudentMatchMaker() {
   return (
     <div className="w-full flex items-center min-h-screen">
       <div className="flex justify-center items-center w-full py-6">
-        <Card href="#" className="w-50">
+        <Card href="#" className="w-full max-w-3xl">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Proyecto
           </h5>
@@ -94,7 +94,7 @@ function StudentMatchMaker() {
                     </div>
                   </div>
                   <div className="p-6 w-full flex justify-end">
-                    <Button className="bg-guinda">Participar en este de proyecto</Button>
+                    <Button className="bg-guinda">Participar en el de proyecto</Button>
                   </div>
                 </form>
               </div>

@@ -102,7 +102,7 @@ const ProfileForm: React.FC = () => {
         correo: data.correo,
         contrasenia: data.contrasenia,
         celular: data.celular,
-        rol: 11, // Rol fijo para estudiante
+        rol: 11, // Rol fijo para estudiante postulante
         foto: selectedImage || '',
         cv: selectedCV || '',
         habilidades: skills, // Transforma las opciones seleccionadas a un array de números

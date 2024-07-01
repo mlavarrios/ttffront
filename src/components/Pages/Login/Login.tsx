@@ -72,7 +72,7 @@ function Login() {
     return (
         <div  >
             <div className="w-100 bg-guinda h-12 py-3">
-                <h2 className="text-white text-center font-bold">Login</h2>
+                <h2 className="text-white text-center font-bold">TT Finder</h2>
             </div>
             <div className="flex bg-dark flex justify-center min-h-screen ">
                 <div className="flex items-center" >

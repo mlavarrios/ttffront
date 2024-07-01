@@ -64,7 +64,9 @@ const RegisterProjectForm = ({ id }: dato) => {
           return selectedOption ? { value: parseInt(selectedOption.value), label: selectedOption.label } : null;
         }).filter(option => option !== null)
       };
-      await axios.post(`${URI}/proyectos`, proyectoData);
+      const response=await axios.post(`${URI}/proyectos`, proyectoData);
+      console.log(response.data);
+      
       navigate("/");
     } catch (error) {
       console.error(error);

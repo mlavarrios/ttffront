@@ -15,16 +15,11 @@ function AboutProject() {
         navigate(`/registerProject/${id}`)
     }
     const joinProject = async() => {
-        try {
-            
-        } catch (error) {
-            console.error(error);
-        }
         setOpenModal(true)
         setTimeout(() => {
             setOpenModal(false)
             navigate(`/`);
-          }, 2000);
+          }, 3000);
     }
     return (
         <div  >

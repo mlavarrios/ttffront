@@ -45,10 +45,15 @@ function TeacherMatchMaker() {
     getData();
   }, [user]);
 
+  const participate=(idProject:number)=>{
+    console.log(idProject);
+    
+  }
+
   return (
     <div className="w-full flex items-center min-h-screen">
       <div className="flex justify-center items-center w-full py-6">
-        <Card href="#" className="w-50">
+        <Card href="#" className="w-full max-w-3xl">
           <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Proyecto
           </h5>
@@ -94,7 +99,7 @@ function TeacherMatchMaker() {
                     </div>
                   </div>
                   <div className="p-6 w-full flex justify-end">
-                    <Button className="bg-guinda">Participar como director de proyecto</Button>
+                    <Button className="bg-guinda" onClick={()=>participate(currentProject.id_proyecto)}>Participar como director de proyecto</Button>
                   </div>
                 </form>
               </div>

@@ -20,6 +20,7 @@ import Login from './components/Pages/Login/Login'; // Componente para la págin
 import { useState } from 'react';
 import StudentProfile from './components/Pages/Student/StudentProfile';
 import StudentMatchMaker from './components/Pages/Student/StudentMatchMaker';
+import StudentMyProject from './components/Pages/Student/StudentMyProject';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
       <Route path="/studentHome" element={<WithSidebar><StudentHome /></WithSidebar>} />
       <Route path="/studentProfile" element={<WithSidebar><StudentProfile /></WithSidebar>} />
       <Route path="/studentMatchMaker" element={<WithSidebar><StudentMatchMaker /></WithSidebar>} />
+      <Route path="/studentMyProject" element={<WithSidebar><StudentMyProject/></WithSidebar>} />
         
       <Route path="/" element={<WithoutSidebar><Login /></WithoutSidebar>} />
       <Route path="/register" element={<WithoutSidebar><Register /></WithoutSidebar>} />
