@@ -2,9 +2,11 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import useSessionStore from "../../../store/userStore";
+import useSessionStore from "../../../store/useSessionStore";
 import Axios from "axios";
 import { Usuario } from '../../../types/Usuario';
+import { URI } from "../../../constants/config";
+import axios from "axios";
 
 
 function Login() {
@@ -18,31 +20,7 @@ function Login() {
         password: ""
     })
 
-    useEffect(() => {
-        // Función para obtener la lista de usuarios
-        const fetchUsuarios = async () => {
-            try {
-                const response = await Axios.get('https://ttfinder-d56be5dee4cc.herokuapp.com/usuarios/');
-                const data: Usuario[] = await response.data;
-                setUsuarios(data);
-            } catch (error) {
-                console.error('Error al obtener usuarios:', error);
-            }
-        };
 
-        fetchUsuarios();
-    }, []);
-
-    // Función para verificar el usuario
-    const verificarUsuario = () => {
-        const emailLower = formData.email.trim().toLowerCase();
-        const passwordLower = formData.password.trim().toLowerCase();
-        const usuarioEncontrado = usuarios.find(
-            (usuario) => usuario.correo.toLowerCase() === emailLower && usuario.contrasenia.toLowerCase() === passwordLower
-        );
-
-        return usuarioEncontrado || null;
-    };
 
     const handleShowToast = () => {
         setShowToast(true);
@@ -52,47 +30,44 @@ function Login() {
     };
 
     const logIn = async () => {
+        try {
+            const response = await axios.post(`${URI}/usuarios/verificar`, {
+                "correo": formData.email,
+                "contrasenia": formData.password
+            })
+            const exist = response.data;
+            console.log(exist);
 
-        console.log(usuarios);
+            if (exist != null) {
+                const userData = {
+                    userId: exist.id_usuario,
+                    email: exist.correo,
+                    userType: exist.rol_nombre,
+                    name: exist.nombre,
+                    photo:exist.foto
 
-        const exist = verificarUsuario()
-        console.log(exist);
+                };
 
-        if (exist != null) {
-            console.log("Existe");
-            const userData = {
-                email: exist.correo,
-                userType: exist.rol_nombre,
-                name: exist.nombre,
-            };
-
-            login(userData);
-            if (userData?.userType == "Administrador") {
-                navigate("/adminHome")
-            } else if (userData?.userType == "Profesor") {
-                navigate("/teacherHome")
-            } else if (userData?.userType == "Estudiante Postulante" || userData?.userType == "Estudiante Postulador") {
-                navigate("/studentHome")
-            } else {
-                handleShowToast()
+                login(userData);
+                if (userData?.userType == "Administrador") {
+                    navigate("/adminHome")
+                } else if (userData?.userType == "Profesor") {
+                    navigate("/teacherHome")
+                } else {
+                    navigate("/studentHome")
+                }
             }
 
+        } catch (error) {
+            console.error(error);
+            handleShowToast()
         }
+
 
 
 
     }
-    useEffect(() => {
-        if (user?.userType == "admin") {
-            //navigate("/adminHome")
-        } else if (user?.userType == "teacher") {
-            //navigate("/teacherHome")
-        } else if (user?.userType == "student") {
-            //navigate("/studentHome")
-        } else {
-            //navigate("/")
-        }
-    }, [])
+
 
     return (
         <div  >
@@ -138,7 +113,7 @@ function Login() {
                 <div className="fixed bottom-0 right-0 m-8 z-50">
                     <div className="bg-red-500 text-white font-bold rounded-lg shadow-md p-4 max-w-xs">
                         <div>Error</div>
-                        <div>Ingresa el tipo de usuario en el email (desarrollo).</div>
+                        <div>Error de inicio.</div>
                     </div>
                 </div>
             )}

@@ -1,17 +1,21 @@
 
 import { Link} from "react-router-dom"
+import useSessionStore from "../../../store/useSessionStore";
 
 function StudentSidebar() {
+  const user= useSessionStore.getState().user;
 
   return (
     <div className='p-5'>
               <h3 className='text-white p-2 font-bold text-lg'>Alumno</h3>
               <div className='flex flex-col'>
-              <Link to="/" className='text-white p-2'>Perfil</Link>
-              <Link to="/" className='text-white p-2'>Matchmaker</Link>
-              <Link to="/" className='text-white p-2'>Matches</Link>
-              <Link to="/" className='text-white p-2'>Profesores</Link>
-              
+              <Link to="/studentProfile" className='text-white p-2'>Mi Perfil</Link>
+              {
+              user?.userType=="Estudiante Postulante"?<Link to="/studentMatchMaker" className='text-white p-2'>Matchmaker</Link>:null
+            }
+            {
+              user?.userType=="Estudiante Postulador"?<Link to="/" className='text-white p-2'>Mi Proyecto</Link>:null
+            }
               </div>
             </div>
   )

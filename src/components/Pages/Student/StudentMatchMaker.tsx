@@ -14,7 +14,7 @@ interface Project {
   afinidad: number;
 }
 
-function TeacherMatchMaker() {
+function StudentMatchMaker() {
   const [projects, setProjects] = useState<Project[]>([]);
   const user = useSessionStore((state: any) => state.user);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
@@ -32,7 +32,7 @@ function TeacherMatchMaker() {
   const getData = async () => {
     if (user) {
       try {
-        const response = await axios.get(`${URI}/proyectos/afinidad/${user.userId}`);
+        const response = await axios.get(`${URI}/proyectos/afinidad/42`);
         console.log(response.data);
         setProjects(response.data);
       } catch (error) {
@@ -94,7 +94,7 @@ function TeacherMatchMaker() {
                     </div>
                   </div>
                   <div className="p-6 w-full flex justify-end">
-                    <Button className="bg-guinda">Participar como director de proyecto</Button>
+                    <Button className="bg-guinda">Participar en este de proyecto</Button>
                   </div>
                 </form>
               </div>
@@ -108,4 +108,4 @@ function TeacherMatchMaker() {
   );
 }
 
-export default TeacherMatchMaker;
+export default StudentMatchMaker;

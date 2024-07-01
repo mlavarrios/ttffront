@@ -6,6 +6,7 @@ function AdminSidebar() {
     <h3 className='text-white p-2 font-bold text-lg'>Administrador</h3>
     <div className='flex flex-col'>
     <Link to="/adminTeachers" className='text-white p-2'>Profesores</Link>
+    <Link to="/adminSkills" className='text-white p-2'>Habilidades</Link>
     </div>
   </div>
   )

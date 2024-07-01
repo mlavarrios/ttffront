@@ -1,6 +1,6 @@
 import { Button } from 'flowbite-react';
 import React, { useEffect } from 'react';
-import useSessionStore from '../../store/userStore';
+import useSessionStore from '../../store/useSessionStore';
 import { useNavigate } from 'react-router-dom';
 import StudentSidebar from '../Pages/Student/StudentSidebar';
 import TeacherSidebar from '../Pages/Teacher/TeacherSidebar';
@@ -42,12 +42,22 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
         <div>
           <div>
             <div className="flex items-center justify-center h-60">
+                <div className='flex flex-col gap-5'>
+                <h2 className='text-white text-2xl'>TT Finder</h2>
               <div className="w-24 h-24 rounded-full overflow-hidden">
-                <img className="w-full h-full object-cover" src="https://e00-elmundo.uecdn.es/assets/multimedia/imagenes/2023/06/01/16856207780861.jpg" alt="Foto de perfil" />
+              {
+              user?.userType!="Administrador"?
+              <img src={`data:image/png;base64,${user?.photo}`} alt="User Profile" className="w-full h-full object-cover" />
+              :null
+            }
+                
+                
               </div>
+
+                </div>
             </div>
             {
-              user?.userType=="student"?<StudentSidebar/>:null
+              user?.userType=="Estudiante Postulador"||user?.userType=="Estudiante Postulante"?<StudentSidebar/>:null
             }
             {
               user?.userType=="Profesor"?<TeacherSidebar/>:null

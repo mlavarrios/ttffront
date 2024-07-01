@@ -1,10 +1,19 @@
-
+import { Button } from "flowbite-react"
+import { IoMdArrowRoundBack } from "react-icons/io";
+import { useNavigate } from 'react-router-dom';
 
 function Forgot() {
+    const navigate = useNavigate();
+    const goBack = () => {
+        navigate("/");
+    }
     return (
-        <div  >
-            <div className="w-100 bg-guinda h-12 py-3">
-                <h2 className="text-white text-center font-bold">Restablecimiento de contraseña</h2>
+        <div >
+            <div className="w-full bg-guinda h-12 py-3 flex items-center relative">
+                <Button onClick={goBack} className="ml-4 text-white">
+                <IoMdArrowRoundBack size={25} />
+                </Button>
+                <h2 className="absolute left-1/2 transform -translate-x-1/2 text-white font-bold">Restablecimiento de contraseña</h2>
             </div>
             <div className="flex bg-dark flex justify-center min-h-screen ">
                 <div className="flex items-center" >
